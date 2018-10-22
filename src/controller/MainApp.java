@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Grid;
 
 public class MainApp extends Application {
 
@@ -17,7 +18,11 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
+        this.primaryStage.setTitle("Jeu du pigeon");
+        
+        Grid grid = new Grid(4);
+        
+        
 
         try {
             // Load root layout from fxml file.
