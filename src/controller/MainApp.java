@@ -14,13 +14,14 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private static Grid grid;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Jeu du pigeon");
         
-        Grid grid = new Grid(4);
+        grid = new Grid(4);
         
         
 
@@ -49,7 +50,6 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     
 
@@ -65,5 +65,10 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        stopGame();
+    }
+    
+    private static void stopGame() {
+    	grid.stopGame();
     }
 }

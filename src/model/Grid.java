@@ -29,5 +29,15 @@ public class Grid {
 				
 	}
 	
+	public void stopGame() {
+		for(Pigeon pigeon : listPigeons){
+			pigeon.stop();
+		}
+		for(Food food : listFood) {
+			food.stop();
+		}
+		System.out.println("tous les threads ont été stoppés.");
+	}
+	
 	
 }

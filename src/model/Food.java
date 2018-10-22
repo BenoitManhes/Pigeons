@@ -1,6 +1,8 @@
 package model;
 
 public class Food implements Runnable{
+	boolean isRunning = true;
+	
 	int expirationDate;
 	int posX;
 	int posY;
@@ -11,8 +13,13 @@ public class Food implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		//Check expirationDate to know if still good
-		//Destroy if expired
+		while(isRunning) {
+			//Check expirationDate to know if still good
+			//Destroy if expired
+		}
+	}
+	
+	public void stop() {
+		isRunning = false;
 	}
 }
