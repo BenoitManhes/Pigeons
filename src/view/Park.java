@@ -1,3 +1,5 @@
+package view;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -7,17 +9,21 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import model.Element;
+import model.Food;
+import model.Parametre;
+import model.Pigeon;
+import threads.ThreadPigeon;
 
 import java.awt.event.ActionListener;
 import java.io.InputStream;
-import java.util.Observable;
 import java.util.Vector;
 
-public class View extends Application {
+public class Park extends Application {
 
 	public static void main(String[] args) {
 
-		launch(View.class, args);
+		launch(Park.class, args);
 	}
 
 	private final int HEIGHT = Parametre.HEIGHT;
@@ -26,8 +32,8 @@ public class View extends Application {
 	public static Image imagePark;
 	public static Image imageFood;
 
-	private Vector<Element> pigeonVect;
-	private Vector<Element> foodVect;
+	public static Vector<Pigeon> pigeonVect;
+	public static Vector<Food> foodVect;
 
 	private Stage primaryStage;
 	private Scene scene;
@@ -77,36 +83,18 @@ public class View extends Application {
 
 		for (int i = 0; i < Parametre.NB_PIGEON; i++) {
 			Pigeon pi = new Pigeon();
-			chooseID(pi, this.pigeonVect);
-			this.pigeonVect.add(pi);
+			pigeonVect.add(pi);
 			this.pigeonsGroup.getChildren().addAll(pi.getImageView());
 		}
-
-
+		
+		ThreadPigeon th = new ThreadPigeon(pigeonVect.get(0));
+		th.start();
 	}
 
 	public void addFood() {
 		Food food = new Food();
-		chooseID(food, this.foodVect);
 		this.foodVect.add(food);
 		this.foodGroup.getChildren().addAll(food.getImageView());
 	}
-
-	public static void chooseID(Element e, Vector<Element> v) {
-		boolean ipTrouve = false;
-		int ip = 0;
-		if(!v.isEmpty()) {
-			while(!ipTrouve) {
-				ipTrouve = true;
-				ip++;
-				for (Element element : v) {
-					if(element.getId() == ip) ipTrouve = false;
-				}
-				if(!ipTrouve) ip++;
-			}
-		}
-		e.setId(ip);
-	}
-
 
 }
