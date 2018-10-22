@@ -5,6 +5,10 @@ public abstract class Element {
 	protected int X;
 	protected int Y;
 	protected ImageView imageView;
+	protected int id;
+
+
+
 
 	public Element(ImageView imv) {
 		this.imageView = imv;
@@ -46,6 +50,15 @@ public abstract class Element {
 	public void updateImageView(){
 		this.imageView.setX(this.X);
 		this.imageView.setY(this.Y);
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }
