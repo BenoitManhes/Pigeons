@@ -30,6 +30,11 @@ public abstract class Element {
 		double y = Math.abs(e.getY()-this.getY());
 		return Math.sqrt(x*x + y*y);
 	}
+	public double distance(Element e,int a, int b) {
+		double x = Math.abs(e.getX()-this.getX()+a);
+		double y = Math.abs(e.getY()-this.getY()+b);
+		return Math.sqrt(x*x + y*y);
+	}
 	
 	/**======================================= getter et setter =============================================================*/
 	public int getX() {return X;}

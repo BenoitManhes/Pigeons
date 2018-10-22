@@ -18,6 +18,6 @@ public class Parametre {
     public static final int PIGEON_DELAY = 100;
 
     // autre
-    public static final int PIGEON_SPEED = 1;
+    public static final int PIGEON_SPEED = 4;
     public static final int NB_PIGEON = 4;
 }

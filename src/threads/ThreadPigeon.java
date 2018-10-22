@@ -19,7 +19,7 @@ public class ThreadPigeon extends Thread {
 			if(cible != null) {
 				deplacement();
 			}
-			try {this.sleep(10);} catch (InterruptedException e) {e.printStackTrace();}
+			try {this.sleep(50);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
 
@@ -41,14 +41,20 @@ public class ThreadPigeon extends Thread {
 
 	public void deplacement() {
 		double d = pigeon.distance(cible);
+
 		if(d !=0) {
-			double cosAngle = (cible.getX() - pigeon.getX()) / d;
-			double sinAngle = (cible.getY() - pigeon.getY()) / d;
+			if(d > Parametre.PIGEON_SPEED) {
+				double cosAngle = (cible.getX() - pigeon.getX()) / d;
+				double sinAngle = (cible.getY() - pigeon.getY()) / d;
 
-			int x = (int) Math.round(Parametre.PIGEON_SPEED*cosAngle);
-			int y = (int) Math.round(Parametre.PIGEON_SPEED*sinAngle);
-
-			this.pigeon.move(x, y);
+				int x = (int) Math.round(Parametre.PIGEON_SPEED*cosAngle);
+				int y = (int) Math.round(Parametre.PIGEON_SPEED*sinAngle);
+				this.pigeon.move(x, y);
+			}else {
+				this.pigeon.move(cible.getX(), cible.getY());
+				System.out.println("================= cible atteinte ============");
+			}
 		}
 	}
 }
+
