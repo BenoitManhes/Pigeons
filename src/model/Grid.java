@@ -18,15 +18,14 @@ public class Grid {
 		for(int i = 0; i < nbPigeons; i++) {
 			//Create a Pigeon object, and start his Thread
 			Pigeon newPigeon = new Pigeon(listFood);
-			System.out.println("Grid : creation of pigeon : id=" + newPigeon.hashCode() + " (and his thread lauched)");
+			System.out.println("Grid : creation of pigeon : id=" + newPigeon.hashCode() + " (and his thread launched)");
 			listPigeons.add(newPigeon);
 			Thread thread = new Thread(newPigeon);
 			thread.start();
-			
-			
-
 		}
-				
+		
+		listFood.add(new Food());
+		
 	}
 	
 	public void stopGame() {
@@ -36,7 +35,7 @@ public class Grid {
 		for(Food food : listFood) {
 			food.stop();
 		}
-		System.out.println("tous les threads ont été stoppés.");
+		System.out.println("Every threads have been stopped.");
 	}
 	
 	

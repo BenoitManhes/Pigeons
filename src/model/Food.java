@@ -9,6 +9,8 @@ public class Food implements Runnable{
 	
 	public Food() {
 		//Create a food at a random position
+		posX =55;
+		posY = 55;
 	}
 
 	@Override
@@ -21,5 +23,13 @@ public class Food implements Runnable{
 	
 	public void stop() {
 		isRunning = false;
+	}
+
+	public int getX() {
+		return posX;
+	}
+	
+	public int getY() {
+		return posY;
 	}
 }
