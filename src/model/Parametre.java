@@ -10,8 +10,8 @@ public class Parametre {
     public static final int UL = height/15;	// UL = 1 unite de longeur
     public static final int PIGEON_SIZE = UL;
     public static final int FOOD_SIZE = UL/2;
-    public static final int HEIGHT = 10*UL;
-    public static final int WIDTH = 15*UL;
+    public static final int HEIGHT = 720;
+    public static final int WIDTH = 1280;
 
     // parametre temporel (en ms)
     public static final int FOOD_TIME = 2500;

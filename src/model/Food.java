@@ -1,17 +1,28 @@
 package model;
-import javafx.scene.image.ImageView;
-import view.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
-public class Food extends Element{
-	
+public class Food extends Element implements Runnable {
+
+	int x;
+	int y;
 	boolean fresh;
 
-	public Food() {
-		super(new ImageView(Park.imageFood));
-		this.X = (int) (Math.random()*(Parametre.WIDTH - Parametre.FOOD_SIZE));
-		this.Y = (int) (Math.random()*(Parametre.HEIGHT - Parametre.FOOD_SIZE));
+	public Food(Pane pane, int width, int height, Image img) {
+		super(pane, width, height, img);
+		this.x = (int) (Math.random()*(Parametre.WIDTH - Parametre.FOOD_SIZE));
+		this.y = (int) (Math.random()*(Parametre.HEIGHT - Parametre.FOOD_SIZE));
+		this.setLocation(x, y);
 		this.fresh = true;
-		updateImageView();
 	}
 
+	public void run() {
+		while(true) {
+			try {
+				Thread.sleep(16);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
