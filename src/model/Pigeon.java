@@ -26,7 +26,6 @@ public class Pigeon extends Element implements Runnable {
 			if(cible != null) {
 				move();
 			}
-			//setLocation(this.getX() + 1.0, this.getY() + 1.0);
 			try {Thread.sleep(50);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
@@ -52,17 +51,13 @@ public class Pigeon extends Element implements Runnable {
 			if (d > Parametre.PIGEON_SPEED) {
 				double cosAngle = (cible.getX() - getX()) / d;
 				double sinAngle = (cible.getY() - getY()) / d;
-				/*System.out.println(cosAngle);
-				System.out.println(sinAngle);*/
 
 				int x = (int) Math.round(Parametre.PIGEON_SPEED * cosAngle);
 				int y = (int) Math.round(Parametre.PIGEON_SPEED * sinAngle);
 
 				setLocation(this.getX() + x, this.getY() + y);
-
-				//this.pigeon.move(x, y);
 			} else {
-				//this.pigeon.move(cible.getX(), cible.getY());
+				setLocation(cible.getX(), cible.getY());
 				//System.out.println("================= cible atteinte ============");
 			}
 		}

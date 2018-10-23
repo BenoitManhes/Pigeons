@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -45,7 +44,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		// gestion des images
+		//gestion des images
 		//Class<?> clazz = this.getClass();
 
 		//InputStream inputPark = clazz.getResourceAsStream("/view/park.png");
@@ -101,7 +100,7 @@ public class Main extends Application {
 		Food food = new Food(root, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imageFood);
 		allFood.add(food);
 		Thread threadFood = new Thread(food);
-		//threadFood.start();
+		threadFood.start();
 	}
 
 }
