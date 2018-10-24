@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,6 +17,7 @@ import model.Parametre;
 import model.Pigeon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class Main extends Application {
@@ -27,54 +29,58 @@ public class Main extends Application {
 
 	private final int HEIGHT = Parametre.HEIGHT;
 	private final int WIDTH = Parametre.WIDTH;
-	//public static Image imagePigeon;
-	//public static Image imagePark;
-	//public static Image imageFood;
-
-	//public static Vector<Pigeon> pigeonVect;
-	//public static Vector<Food> foodVect;
 
 	ArrayList<Food> allFood = new ArrayList<>();
 	ArrayList<Pigeon> allPigeon = new ArrayList<>();
+	ArrayList<Integer> index = new ArrayList<>();
 
 	private Scene scene;
-	private Pane root;
-	/*private Group pigeonsGroup;
-	private Group foodGroup;*/
+	private Pane pane;
+	AnimationTimer gameLoop;
 
 	@Override
 	public void start(Stage primaryStage) {
-		//gestion des images
-		//Class<?> clazz = this.getClass();
-
-		//InputStream inputPark = clazz.getResourceAsStream("/view/park.png");
-		//imagePark = new Image(inputPark,WIDTH,HEIGHT,false,true);
-		//ImageView imageParkView = new ImageView(imagePark);
-
-		//InputStream inputPigeon = clazz.getResourceAsStream("/view/pigeon.png");
-		//imagePigeon = new Image(inputPigeon,Parametre.PIGEON_SIZE,Parametre.PIGEON_SIZE,false,true);
-
-		//InputStream inputFood = clazz.getResourceAsStream("/view/food.png");
-		//imageFood = new Image(inputFood,Parametre.FOOD_SIZE,Parametre.FOOD_SIZE,false,true);
-
-		root = new Pane();
+		pane = new Pane();
 		BackgroundImage imageParkView= new BackgroundImage(new Image("./view/park.png"),
 	            BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-	    root.setBackground(new Background(imageParkView));
-		scene = new Scene(this.root, WIDTH, HEIGHT, Color.WHITE);
+		pane.setBackground(new Background(imageParkView));
+		scene = new Scene(this.pane, WIDTH, HEIGHT, Color.WHITE);
 
 		addElement();
-
-		/*this.root.getChildren().addAll(this.pigeonsGroup);
-		this.root.getChildren().addAll(this.foodGroup);*/
-
-		/*Image imagePigeon = new Image("./view/pigeon.png");
-		Pigeon pigeon = new Pigeon(root, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imagePigeon);
-		allPigeon.add(pigeon);*/
 
 		primaryStage.setTitle("Pigeon Square");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
+		startGame();
+	}
+
+	public void startGame() {
+		gameLoop = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				Iterator<Food> iterator = allFood.iterator();
+
+				while (iterator.hasNext()){
+					Food food = iterator.next();
+		            if(!food.getFresh()){
+		                iterator.remove();
+		            }
+				}
+
+				for (int i = 0; i < allFood.size(); i++) {
+					if (allFood.get(i).getEaten() == true) {
+						allFood.get(i).setFresh(false);
+						pane.getChildren().remove(allFood.get(i));
+					}
+				}
+
+				if (allFood.isEmpty()) {
+					addFood();
+				}
+			}
+		};
+		gameLoop.start();
 	}
 
 	public void addElement(){
@@ -89,7 +95,7 @@ public class Main extends Application {
 
 	public void addPigeon() {
 		Image imagePigeon = new Image("./view/pigeon.png");
-		Pigeon pigeon = new Pigeon(root, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imagePigeon, allFood);
+		Pigeon pigeon = new Pigeon(pane, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imagePigeon, allFood);
 		allPigeon.add(pigeon);
 		Thread threadPigeon = new Thread(pigeon);
 		threadPigeon.start();
@@ -97,10 +103,21 @@ public class Main extends Application {
 
 	public void addFood() {
 		Image imageFood = new Image("./view/food.png");
-		Food food = new Food(root, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imageFood);
+		Food food = new Food(pane, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imageFood);
 		allFood.add(food);
 		Thread threadFood = new Thread(food);
 		threadFood.start();
 	}
+
+	/*public void deleteElement(ArrayList<Integer> index, ArrayList<Food> allFood) {
+		index.sort();
+		for (int i = 1; i < index.size(); i++) {
+			if (index.get(i) > index.get(0)) {
+
+			} else {
+				allFood.remove(index.get(i));
+			}
+		}
+	}*/
 
 }
