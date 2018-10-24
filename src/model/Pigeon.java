@@ -62,11 +62,11 @@ public class Pigeon extends Element implements Runnable {
 				return true;
 			} else {
 				setLocation(cible.getX(), cible.getY());
-				System.out.println("je mange");
+				//System.out.println("je mange");
 				return false;
 			}
 		} else {
-			System.out.println("je mange");
+			//System.out.println("je mange");
 			return false;
 		}
 	}

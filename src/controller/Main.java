@@ -2,8 +2,10 @@ package controller;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -46,12 +48,12 @@ public class Main extends Application {
 		pane.setBackground(new Background(imageParkView));
 		scene = new Scene(this.pane, WIDTH, HEIGHT, Color.WHITE);
 
-		addElement();
-
 		primaryStage.setTitle("Pigeon Square");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
+		addElement();
+		initMouse();
 		startGame();
 	}
 
@@ -65,22 +67,26 @@ public class Main extends Application {
 					Food food = iterator.next();
 		            if(!food.getFresh()){
 		                iterator.remove();
+		            } else if (food.getEaten()) {
+		            	iterator.remove();
+		            	pane.getChildren().remove(food);
 		            }
-				}
-
-				for (int i = 0; i < allFood.size(); i++) {
-					if (allFood.get(i).getEaten() == true) {
-						allFood.get(i).setFresh(false);
-						pane.getChildren().remove(allFood.get(i));
-					}
-				}
-
-				if (allFood.isEmpty()) {
-					addFood();
 				}
 			}
 		};
 		gameLoop.start();
+	}
+
+	public void initMouse() {
+		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+	        @Override
+	        public void handle(MouseEvent event) {
+	            double x = event.getX();
+	            double y = event.getY();
+	            //System.out.println("mouse position : " + x + " / " + y);
+	            addFood(x, y);
+	        }
+	    });
 	}
 
 	public void addElement(){
@@ -109,15 +115,12 @@ public class Main extends Application {
 		threadFood.start();
 	}
 
-	/*public void deleteElement(ArrayList<Integer> index, ArrayList<Food> allFood) {
-		index.sort();
-		for (int i = 1; i < index.size(); i++) {
-			if (index.get(i) > index.get(0)) {
-
-			} else {
-				allFood.remove(index.get(i));
-			}
-		}
-	}*/
+	public void addFood(double x, double y) {
+		Image imageFood = new Image("./view/food.png");
+		Food food = new Food(pane, x, y, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imageFood);
+		allFood.add(food);
+		Thread threadFood = new Thread(food);
+		threadFood.start();
+	}
 
 }

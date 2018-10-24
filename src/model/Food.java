@@ -20,6 +20,13 @@ public class Food extends Element implements Runnable {
 		this.eaten = false;
 	}
 
+	public Food(Pane pane, double x, double y, int width, int height, Image img) {
+		super(pane, width, height, img);
+		this.setLocation(x, y);
+		this.fresh = true;
+		this.eaten = false;
+	}
+
 	public void run() {
 		while(fresh) {
 			try {
@@ -30,7 +37,7 @@ public class Food extends Element implements Runnable {
 			}
 		}
 		this.setImage(imageOldFood);
-		System.out.println("nourriture avariée");
+		//System.out.println("nourriture avariée");
 	}
 
 	public boolean getFresh() {
