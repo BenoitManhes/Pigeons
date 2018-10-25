@@ -21,7 +21,6 @@ import model.Pigeon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 public class Main extends Application {
 
@@ -71,8 +70,13 @@ public class Main extends Application {
 
 				while (iterator.hasNext()){
 					Food food = iterator.next();
-					
-					if (food.checkEaten(allPigeon)) {
+
+					/*if (food.checkEaten(allPigeon)) {
+						iterator.remove();
+						pane.getChildren().remove(food);
+						System.out.println("Food Eaten");
+					}*/
+					if (food.getEaten() == true) {
 						iterator.remove();
 						pane.getChildren().remove(food);
 						System.out.println("Food Eaten");
@@ -80,9 +84,8 @@ public class Main extends Application {
 					if ( food.isaDetruire()) {
 						iterator.remove();
 						pane.getChildren().remove(food);
-						System.out.println("food detruite");
+						food.finalize();
 					}
-
 				}
 				/*if (allFood.isEmpty()) {
 					addFood();
@@ -101,7 +104,10 @@ public class Main extends Application {
 					double y = event.getY();
 					addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
 				}else if(event.getButton() == MouseButton.SECONDARY) {
-					fearPigeons();
+					//fearPigeons();
+					for (Pigeon pigeon : allPigeon) {
+						System.out.println(pigeon.getFoodStock());
+					}
 				}
 			}
 		});
@@ -115,12 +121,23 @@ public class Main extends Application {
 		for (int i = 0; i < Parametre.NB_PIGEON; i++) {
 			addPigeon();
 		}
-		//addPigeon();
+		/*addFood(50, 50);
+		addPigeon(50, 50);
+		addPigeon(50, 50);*/
 	}
 
 	public void addPigeon() {
 		Image imagePigeon = new Image("./view/pigeon.png");
 		Pigeon pigeon = new Pigeon(pane, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imagePigeon, allFood);
+		allPigeon.add(pigeon);
+		Thread threadPigeon = new Thread(pigeon);
+		threadPigeon.start();
+		threads.add(threadPigeon);
+	}
+
+	public void addPigeon(double x, double y) {
+		Image imagePigeon = new Image("./view/pigeon.png");
+		Pigeon pigeon = new Pigeon(pane, x, y, Parametre.PIGEON_SIZE, Parametre.PIGEON_SIZE, imagePigeon, allFood);
 		allPigeon.add(pigeon);
 		Thread threadPigeon = new Thread(pigeon);
 		threadPigeon.start();
@@ -150,7 +167,7 @@ public class Main extends Application {
 		for(Pigeon pigeon : allPigeon) {
 			pigeon.setFear();
 			//change image to pigeonFeared
-		}		
+		}
 	}
 
 }

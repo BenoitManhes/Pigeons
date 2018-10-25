@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -11,6 +12,8 @@ public class Food extends Element implements Runnable {
 	int y;
 	boolean fresh;
 	boolean aDetruire;
+	boolean eaten;
+	Lock lock;
 
 	Image imageOldFood = new Image("./view/oldFood.png");
 
@@ -21,6 +24,7 @@ public class Food extends Element implements Runnable {
 		this.setLocation(x, y);
 		this.fresh = true;
 		this.aDetruire = false;
+		this.eaten = false;
 	}
 
 	public Food(Pane pane, double x, double y, int width, int height, Image img) {
@@ -28,7 +32,13 @@ public class Food extends Element implements Runnable {
 		this.setLocation(x, y);
 		this.fresh = true;
 		this.aDetruire = false;
+		this.eaten = false;
 	}
+
+	public void finalize()
+    {
+         //System.out.println("Objet nettoyé de la mémoire");
+    }
 
 	public void run() {
 		//while(fresh) {
@@ -64,10 +74,18 @@ public class Food extends Element implements Runnable {
 		return this.fresh;
 	}
 
-	public void setFresh(boolean fresh) {
-		this.fresh = fresh;
+	public void setFresh(boolean eaten) {
+		this.eaten = eaten;
 	}
-	
+
+	public boolean getEaten() {
+		return this.eaten;
+	}
+
+	public void setEaten(boolean eaten) {
+		this.eaten = eaten;
+	}
+
 	public boolean isaDetruire() {
 		return aDetruire;
 	}
