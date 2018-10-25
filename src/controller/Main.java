@@ -20,7 +20,6 @@ import model.Pigeon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
 
 public class Main extends Application {
 
@@ -34,7 +33,6 @@ public class Main extends Application {
 
 	ArrayList<Food> allFood = new ArrayList<>();
 	ArrayList<Pigeon> allPigeon = new ArrayList<>();
-	ArrayList<Integer> index = new ArrayList<>();
 
 	private Scene scene;
 	private Pane pane;
@@ -43,8 +41,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		pane = new Pane();
+		BackgroundSize backgroundSize = new BackgroundSize(Parametre.WIDTH, Parametre.HEIGHT, false, false, true, true);
 		BackgroundImage imageParkView= new BackgroundImage(new Image("./view/park.png"),
-	            BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+	            BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(imageParkView));
 		scene = new Scene(this.pane, WIDTH, HEIGHT, Color.WHITE);
 
@@ -66,12 +65,16 @@ public class Main extends Application {
 				while (iterator.hasNext()){
 					Food food = iterator.next();
 		            if(!food.getFresh()){
-		                iterator.remove();
-		            } else if (food.getEaten()) {
+		            	iterator.remove();
+		            } else if (food.checkEaten(allPigeon)) {
 		            	iterator.remove();
 		            	pane.getChildren().remove(food);
+		            	System.out.println("Food Eaten");
 		            }
 				}
+				/*if (allFood.isEmpty()) {
+					addFood();
+				}*/
 			}
 		};
 		gameLoop.start();
@@ -83,8 +86,7 @@ public class Main extends Application {
 	        public void handle(MouseEvent event) {
 	            double x = event.getX();
 	            double y = event.getY();
-	            //System.out.println("mouse position : " + x + " / " + y);
-	            addFood(x, y);
+	            addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
 	        }
 	    });
 	}
@@ -97,6 +99,7 @@ public class Main extends Application {
 		for (int i = 0; i < Parametre.NB_PIGEON; i++) {
 			addPigeon();
 		}
+		//addPigeon();
 	}
 
 	public void addPigeon() {
