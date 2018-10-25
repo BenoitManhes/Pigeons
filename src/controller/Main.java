@@ -120,8 +120,8 @@ public class Main extends Application {
 
 		for (int i = 0; i < Parametre.NB_PIGEON; i++) {
 			addPigeon();
-		}
-		/*addFood(50, 50);
+		}/*
+		addFood(50, 50);
 		addPigeon(50, 50);
 		addPigeon(50, 50);*/
 	}

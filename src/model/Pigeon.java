@@ -89,8 +89,11 @@ public class Pigeon extends Element implements Runnable {
 	}
 
 	public void eat(Food cible) {
-		//cible.lock.lock();
-		cible.setEaten(true);
+		boolean tryLock = cible.lock.tryLock();
+		if(tryLock) {
+			cible.setEaten(true);
+			System.out.println("pigeon " + Thread.currentThread().getId() + " eat the food");
+		}
 	}
 
 	public void fear() {

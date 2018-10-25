@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -13,7 +14,7 @@ public class Food extends Element implements Runnable {
 	boolean fresh;
 	boolean aDetruire;
 	boolean eaten;
-	Lock lock;
+	Lock lock = new ReentrantLock();
 
 	Image imageOldFood = new Image("./view/oldFood.png");
 
