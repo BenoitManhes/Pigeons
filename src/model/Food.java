@@ -29,9 +29,12 @@ public class Food extends Element implements Runnable {
 		this.fresh = true;
 		this.aDetruire = false;
 	}
+	
+	public void finalize() {
+	}
 
 	public void run() {
-		//while(fresh) {
+		while(fresh) {
 			try {
 				Thread.sleep(Parametre.FOOD_TIME);
 				fresh = false;
@@ -45,7 +48,7 @@ public class Food extends Element implements Runnable {
 			} catch (Exception e ) {
 				e.printStackTrace();
 			}
-		//}
+		}
 		//System.out.println("nourriture avariée");
 	}
 
@@ -71,4 +74,5 @@ public class Food extends Element implements Runnable {
 	public boolean isaDetruire() {
 		return aDetruire;
 	}
+
 }

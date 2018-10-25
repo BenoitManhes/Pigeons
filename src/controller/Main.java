@@ -101,7 +101,9 @@ public class Main extends Application {
 					double y = event.getY();
 					addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
 				}else if(event.getButton() == MouseButton.SECONDARY) {
-					fearPigeons();
+					double x = event.getX();
+					double y = event.getY();
+					fearPigeons(x,y);
 				}
 			}
 		});
@@ -145,10 +147,10 @@ public class Main extends Application {
 		threads.add(threadFood);
 	}
 
-	public void fearPigeons() {
+	public void fearPigeons(double x, double y) {
 		//get all pigeons
 		for(Pigeon pigeon : allPigeon) {
-			pigeon.setFear();
+			pigeon.setFear(x,y);
 			//change image to pigeonFeared
 		}		
 	}

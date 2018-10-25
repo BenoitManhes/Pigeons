@@ -8,39 +8,39 @@ import javafx.scene.layout.Pane;
 
 public class Pigeon extends Element implements Runnable {
 
-	int x;
-	int y;
+	double x;
+	double y;
 	ArrayList<Food> allFood;
 	Food cible;
+	double[] cibleFear;
 	Pane pane;
-	int iterationFeared;
+	boolean fear;
 
 	public Pigeon(Pane pane, int width, int height, Image img, ArrayList<Food> allFood) {
 		super(pane, width, height, img);
-		this.x = (int) (Math.random()*(Parametre.WIDTH - Parametre.PIGEON_SIZE));
-		this.y = (int) (Math.random()*(Parametre.HEIGHT - Parametre.PIGEON_SIZE));
+		this.x =  (Math.random()*(Parametre.WIDTH - Parametre.PIGEON_SIZE));
+		this.y =  (Math.random()*(Parametre.HEIGHT - Parametre.PIGEON_SIZE));
 		this.setLocation(x, y);
 		this.allFood = allFood;
 		this.pane = pane;
+		this.fear = false;
+		this.cibleFear = new double[2];
 	}
 
 	public void run() {
 		while(true) {
-			cible = null;
-			if (!allFood.isEmpty()) {
-				selectCible();
-			}
-			if (iterationFeared <= 0 && cible != null) {
-					move();
-					
-			}else if(iterationFeared == 1) {
-				Image imv = new Image("./view/pigeon.png");
-				setImage(imv);
-				iterationFeared--;
-			}
-			else if(iterationFeared > 0) {
-				fear();
-				iterationFeared--;
+			if(this.fear) {
+				move(cibleFear[0], cibleFear[1], Parametre.PIGEON_SPEED*1.5);
+				checkCibleFear();
+			}else {
+				cible = null;
+				if (!allFood.isEmpty()) {
+					selectCible();
+				}
+				if (cible != null) {
+					move(cible.getX(), cible.getY(), Parametre.PIGEON_SPEED);
+				}
+				
 			}
 			try {Thread.sleep(Parametre.PIGEON_DELAY);} catch (InterruptedException e) {e.printStackTrace();}
 		}
@@ -58,37 +58,56 @@ public class Pigeon extends Element implements Runnable {
 		}
 	}
 
-	public void move() {
-		double d = this.distance(cible);
+	public void move(double xCible, double yCible, double speed) {
+		double d = this.distance(xCible, yCible);
 
 		if (d != 0) {
-			if (d > Parametre.PIGEON_SPEED) {
-				double cosAngle = (cible.getX() - getX()) / d;
-				double sinAngle = (cible.getY() - getY()) / d;
+			if (d > speed) {
+				double cosAngle = (xCible - getX()) / d;
+				double sinAngle = (yCible - getY()) / d;
 
-				x = (int) Math.round(Parametre.PIGEON_SPEED * cosAngle);
-				y = (int) Math.round(Parametre.PIGEON_SPEED * sinAngle);
+				double x =  Math.round(speed * cosAngle);
+				double y =  Math.round(speed * sinAngle);
 				setLocation(this.getX() + x, this.getY() + y);
 			} else {
-				setLocation(cible.getX(), cible.getY());
+				setLocation(xCible, yCible);
 			}
 		}
 		//System.out.println(this.getX() + " / " + this.getY());
 	}
 	
-	public void fear() {
-		//Move the pigeon randomly
-		Random rdm = new Random();
-		
-		x = (int) Math.round(Parametre.PIGEON_SPEED * (rdm.nextDouble()*10 - 5));
-		y = (int) Math.round(Parametre.PIGEON_SPEED * (rdm.nextDouble()*10 - 5));
-		setLocation(this.getX() + x, this.getY() + y);
+	// check si le pigeon a atteint la cible de fuite
+	public void checkCibleFear() {
+		if(this.getX() == cibleFear[0] && this.getY() == cibleFear[1]) {
+			this.fear =false;
+			Image imv = new Image("./view/pigeon.png");
+			setImage(imv);
+		}
 	}
 
-	public void setFear() {
+	public void setFear(double xClick, double yClick) {
 		Image imv = new Image("./view/pigeonFeared.png");
 		setImage(imv);
-		this.iterationFeared = 100;
+		this.fear = true;
+		this.setFearPosition(xClick, yClick);
+	}
+
+	public void setFearPosition(double xClick, double yClick) {
+		// calcul orientation a l opposé de l element effrayant
+		double SignDeltaX = (this.x - xClick)/Math.abs(this.x - xClick);
+		double SignDeltaY = (this.y - yClick)/Math.abs(this.y - yClick);
+		
+		// calcul des coordonnes du point de fuite de maniere aleatoire mais oppose a l element effrayant 
+		int deltaD = Parametre.DISTANCE_FEAR_MAX-Parametre.DISTANCE_FEAR_MIN;
+		double xFear = this.getX() + (Math.random()*(deltaD) + Parametre.DISTANCE_FEAR_MIN)*SignDeltaX;
+		double yFear = this.getY() + (Math.random()*(deltaD) + Parametre.DISTANCE_FEAR_MIN)*SignDeltaY;
+		
+		// encadrement des coordonnes de fuite pour eviter de sortir du parc
+		xFear = Math.max(0, xFear); xFear = Math.min(Parametre.width-Parametre.PIGEON_SIZE, xFear);
+		yFear = Math.max(0, yFear); yFear = Math.min(Parametre.height-Parametre.PIGEON_SIZE, yFear);
+		
+		this.cibleFear[0] = xFear;
+		this.cibleFear[1] = yFear;
 	}
 }
 
