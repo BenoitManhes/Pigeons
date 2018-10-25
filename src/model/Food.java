@@ -10,6 +10,8 @@ public class Food extends Element implements Runnable {
 	int x;
 	int y;
 	boolean fresh;
+	boolean aDetruire;
+
 	Image imageOldFood = new Image("./view/oldFood.png");
 
 	public Food(Pane pane, int width, int height, Image img) {
@@ -18,16 +20,18 @@ public class Food extends Element implements Runnable {
 		this.y = (int) (Math.random()*(Parametre.HEIGHT - Parametre.FOOD_SIZE));
 		this.setLocation(x, y);
 		this.fresh = true;
+		this.aDetruire = false;
 	}
 
 	public Food(Pane pane, double x, double y, int width, int height, Image img) {
 		super(pane, width, height, img);
 		this.setLocation(x, y);
 		this.fresh = true;
+		this.aDetruire = false;
 	}
 
 	public void run() {
-		while(fresh) {
+		//while(fresh) {
 			try {
 				Thread.sleep(Parametre.FOOD_TIME);
 				fresh = false;
@@ -35,7 +39,13 @@ public class Food extends Element implements Runnable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+			try {
+				Thread.sleep(Parametre.FOOD_DESTROY_DELAY);
+				this.aDetruire = true;
+			} catch (Exception e ) {
+				e.printStackTrace();
+			}
+		//}
 		//System.out.println("nourriture avariée");
 	}
 
@@ -56,5 +66,9 @@ public class Food extends Element implements Runnable {
 
 	public void setFresh(boolean fresh) {
 		this.fresh = fresh;
+	}
+	
+	public boolean isaDetruire() {
+		return aDetruire;
 	}
 }

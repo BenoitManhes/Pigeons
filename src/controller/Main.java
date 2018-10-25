@@ -50,7 +50,7 @@ public class Main extends Application {
 		pane = new Pane();
 		BackgroundSize backgroundSize = new BackgroundSize(Parametre.WIDTH, Parametre.HEIGHT, false, false, true, true);
 		BackgroundImage imageParkView= new BackgroundImage(new Image("./view/park.png"),
-	            BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
 		pane.setBackground(new Background(imageParkView));
 		scene = new Scene(this.pane, WIDTH, HEIGHT, Color.WHITE);
 
@@ -71,13 +71,18 @@ public class Main extends Application {
 
 				while (iterator.hasNext()){
 					Food food = iterator.next();
-		            if(!food.getFresh()){
-		            	iterator.remove();
-		            } else if (food.checkEaten(allPigeon)) {
-		            	iterator.remove();
-		            	pane.getChildren().remove(food);
-		            	System.out.println("Food Eaten");
-		            }
+					
+					if (food.checkEaten(allPigeon)) {
+						iterator.remove();
+						pane.getChildren().remove(food);
+						System.out.println("Food Eaten");
+					}
+					if ( food.isaDetruire()) {
+						iterator.remove();
+						pane.getChildren().remove(food);
+						System.out.println("food detruite");
+					}
+
 				}
 				/*if (allFood.isEmpty()) {
 					addFood();
@@ -89,17 +94,17 @@ public class Main extends Application {
 
 	public void initMouse() {
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
-	        @Override
-	        public void handle(MouseEvent event) {
-		        if(event.getButton() == MouseButton.PRIMARY) {
-		            double x = event.getX();
-		            double y = event.getY();
-		            addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
-	        	}else if(event.getButton() == MouseButton.SECONDARY) {
-	        		fearPigeons();
-	        	}
-	        }
-	    });
+			@Override
+			public void handle(MouseEvent event) {
+				if(event.getButton() == MouseButton.PRIMARY) {
+					double x = event.getX();
+					double y = event.getY();
+					addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
+				}else if(event.getButton() == MouseButton.SECONDARY) {
+					fearPigeons();
+				}
+			}
+		});
 	}
 
 	public void addElement(){
@@ -139,13 +144,13 @@ public class Main extends Application {
 		threadFood.start();
 		threads.add(threadFood);
 	}
-	
+
 	public void fearPigeons() {
-			//get all pigeons
-			for(Pigeon pigeon : allPigeon) {
-				pigeon.setFear();
-				//change image to pigeonFeared
-			}		
+		//get all pigeons
+		for(Pigeon pigeon : allPigeon) {
+			pigeon.setFear();
+			//change image to pigeonFeared
+		}		
 	}
 
 }

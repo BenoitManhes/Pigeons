@@ -42,7 +42,7 @@ public class Pigeon extends Element implements Runnable {
 				fear();
 				iterationFeared--;
 			}
-			try {Thread.sleep(50);} catch (InterruptedException e) {e.printStackTrace();}
+			try {Thread.sleep(Parametre.PIGEON_DELAY);} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
 
@@ -51,7 +51,7 @@ public class Pigeon extends Element implements Runnable {
 
 		for (int i = 0; i < allFood.size(); i++) {
 			//System.out.println(allFood.size());
-			if (distance(allFood.get(i)) < distanceMin) {
+			if (distance(allFood.get(i)) < distanceMin && allFood.get(i).getFresh()) {
 				distanceMin = distance(allFood.get(i));
 				cible = allFood.get(i);
 			}

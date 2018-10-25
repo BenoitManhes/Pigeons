@@ -15,9 +15,10 @@ public class Parametre {
 
     // parametre temporel (en ms)
     public static final int FOOD_TIME = 5000;
+    public static final int FOOD_DESTROY_DELAY = 2000;
     public static final int PIGEON_DELAY = 100;
 
     // autre
-    public static final int PIGEON_SPEED = 4;
+    public static final int PIGEON_SPEED = 2;
     public static final int NB_PIGEON = 4;
 }
