@@ -17,20 +17,21 @@ public abstract class Element extends ImageView {
 		this.setY(y);
 	}
 
-	public void setLocation(int x, int y){
-		this.setX(x);
-		this.setY(y);
-	}
-
 	public double distance(Element e) {
 		double x = Math.abs(e.getX()-this.getX());
 		double y = Math.abs(e.getY()-this.getY());
 		return Math.sqrt(x*x + y*y);
 	}
 
-	public double distance(Element e,int a, int b) {
+	public double distance(Element e,double a, double b) {
 		double x = Math.abs(e.getX()-this.getX()+a);
 		double y = Math.abs(e.getY()-this.getY()+b);
 		return Math.sqrt(x*x + y*y);
 	}
+	
+	public double distance(double xCible, double yCible) {
+		double x = Math.abs(xCible-this.getX());
+		double y = Math.abs(yCible-this.getY());
+		return Math.sqrt(x*x + y*y);
+	} 
 }
