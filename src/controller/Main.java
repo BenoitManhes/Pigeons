@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -20,6 +21,7 @@ import model.Pigeon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 public class Main extends Application {
 
@@ -84,9 +86,13 @@ public class Main extends Application {
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 	        @Override
 	        public void handle(MouseEvent event) {
-	            double x = event.getX();
-	            double y = event.getY();
-	            addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
+		        if(event.getButton() == MouseButton.PRIMARY) {
+		            double x = event.getX();
+		            double y = event.getY();
+		            addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
+	        	}else if(event.getButton() == MouseButton.SECONDARY) {
+	        		fearPigeons();
+	        	}
 	        }
 	    });
 	}
@@ -124,6 +130,14 @@ public class Main extends Application {
 		allFood.add(food);
 		Thread threadFood = new Thread(food);
 		threadFood.start();
+	}
+	
+	public void fearPigeons() {
+			//get all pigeons
+			for(Pigeon pigeon : allPigeon) {
+				pigeon.setFear();
+				//change image to pigeonFeared
+			}		
 	}
 
 }
