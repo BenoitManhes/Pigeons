@@ -1,11 +1,9 @@
-Pigeons
+Projet Pigeon
 
-Afin de configurer Eclipse pour le projet, suivre le tutoriel suivant : 
-https://code.makery.ch/fr/library/javafx-tutorial/part1/
-
-Pour modifier une vue :
-Clic droit sur la vue, puis "Ouvrir avec SceneBuilder"
-(SceneBuilder doit avoir été installé au préalable)
+Equipe constituée de :
+-Benoit Manhes
+-Axel Raffatin
+-Louis Blasselle
 
 Description :
 Un certain nombre de pigeons sont présents sur un plateau de jeu.
@@ -14,4 +12,7 @@ Si de la nourriture est présente, un pigeon se dirige vers la nourriture la plu
 
 La nourriture a un temps de conservation, et disparait si elle n'est plus bonne.
 
+Un clic gauche fait apparaitre de la nourriture à l'emplacement du clic.
+Un clic droit fait fuir les pigeons à l'opposé de l'emplacement du clic.
 
+Le nombre de pigeons présents dans le parc est spécifié dans la classe Paramètre.
