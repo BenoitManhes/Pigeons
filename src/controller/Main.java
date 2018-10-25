@@ -54,6 +54,7 @@ public class Main extends Application {
 		scene = new Scene(this.pane, WIDTH, HEIGHT, Color.WHITE);
 
 		primaryStage.setTitle("Pigeon Square");
+		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
@@ -71,11 +72,6 @@ public class Main extends Application {
 				while (iterator.hasNext()){
 					Food food = iterator.next();
 
-					/*if (food.checkEaten(allPigeon)) {
-						iterator.remove();
-						pane.getChildren().remove(food);
-						System.out.println("Food Eaten");
-					}*/
 					if (food.getEaten() == true) {
 						iterator.remove();
 						pane.getChildren().remove(food);
@@ -84,12 +80,8 @@ public class Main extends Application {
 					if ( food.isaDetruire()) {
 						iterator.remove();
 						pane.getChildren().remove(food);
-						food.finalize();
 					}
 				}
-				/*if (allFood.isEmpty()) {
-					addFood();
-				}*/
 			}
 		};
 		gameLoop.start();
@@ -104,25 +96,18 @@ public class Main extends Application {
 					double y = event.getY();
 					addFood(x - Parametre.FOOD_SIZE, y - Parametre.FOOD_SIZE);
 				}else if(event.getButton() == MouseButton.SECONDARY) {
-					double x = event.getX();
-					double y = event.getY();
-					fearPigeons(x,y);
+					fearPigeons(event.getX(), event.getY());
 				}
 			}
 		});
 	}
 
 	public void addElement(){
-		for (int i = 0; i < Parametre.NB_PIGEON; i++) {
-			addFood();
-		}
+		addFood();
 
 		for (int i = 0; i < Parametre.NB_PIGEON; i++) {
 			addPigeon();
-		}/*
-		addFood(50, 50);
-		addPigeon(50, 50);
-		addPigeon(50, 50);*/
+		}
 	}
 
 	public void addPigeon() {
@@ -162,10 +147,8 @@ public class Main extends Application {
 	}
 
 	public void fearPigeons(double x, double y) {
-		//get all pigeons
 		for(Pigeon pigeon : allPigeon) {
 			pigeon.setFear(x,y);
-			//change image to pigeonFeared
 		}
 	}
 

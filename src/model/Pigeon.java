@@ -49,6 +49,9 @@ public class Pigeon extends Element implements Runnable {
 				}
 				if (cible != null) {
 					move(cible.getX(), cible.getY(), Parametre.PIGEON_SPEED);
+					if(cible.getX() == this.getX() && cible.getY() == this.getY()) {
+						eat(cible);
+					}
 				}
 				
 			}
@@ -93,12 +96,14 @@ public class Pigeon extends Element implements Runnable {
 			Image imv = new Image("./view/pigeon.png");
 			setImage(imv);
 		}
+	}
 
 	public void eat(Food cible) {
 		boolean tryLock = cible.lock.tryLock();
 		if(tryLock) {
 			cible.setEaten(true);
 			System.out.println("pigeon " + Thread.currentThread().getId() + " eat the food");
+			foodStock++;
 		}
 	}
 

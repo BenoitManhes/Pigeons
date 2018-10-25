@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -36,13 +35,6 @@ public class Food extends Element implements Runnable {
 		this.eaten = false;
 	}
 	
-	public void finalize() {
-	}
-
-	public void finalize()
-    {
-         //System.out.println("Objet nettoyé de la mémoire");
-    }
 
 	public void run() {
 		while(fresh) {
@@ -60,19 +52,8 @@ public class Food extends Element implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		//System.out.println("nourriture avariée");
 	}
 
-	public boolean checkEaten(ArrayList<Pigeon> allPigeon) {
-		for (int i = 0; i < allPigeon.size(); i++) {
-			double d = this.distance(allPigeon.get(i));
-
-			if (d == 0 || d < Parametre.PIGEON_SPEED) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public boolean getFresh() {
 		return this.fresh;

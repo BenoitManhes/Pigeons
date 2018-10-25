@@ -21,7 +21,7 @@ public class Parametre {
 
     // autre
     public static final int PIGEON_SPEED = 4;
-    public static final int NB_PIGEON = 3;
+    public static final int NB_PIGEON = 4;
     
     // distance de fuite des pigeons
     public static final int DISTANCE_FEAR_MIN = UL;
