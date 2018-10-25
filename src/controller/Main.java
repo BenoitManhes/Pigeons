@@ -25,9 +25,13 @@ import java.util.concurrent.TimeUnit;
 
 public class Main extends Application {
 
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 
 		launch(args);
+		for(Thread thread : threads) {
+			thread.stop();
+		}
 	}
 
 	private final int HEIGHT = Parametre.HEIGHT;
@@ -35,6 +39,7 @@ public class Main extends Application {
 
 	ArrayList<Food> allFood = new ArrayList<>();
 	ArrayList<Pigeon> allPigeon = new ArrayList<>();
+	static ArrayList<Thread> threads = new ArrayList<>();
 
 	private Scene scene;
 	private Pane pane;
@@ -114,6 +119,7 @@ public class Main extends Application {
 		allPigeon.add(pigeon);
 		Thread threadPigeon = new Thread(pigeon);
 		threadPigeon.start();
+		threads.add(threadPigeon);
 	}
 
 	public void addFood() {
@@ -122,6 +128,7 @@ public class Main extends Application {
 		allFood.add(food);
 		Thread threadFood = new Thread(food);
 		threadFood.start();
+		threads.add(threadFood);
 	}
 
 	public void addFood(double x, double y) {
@@ -130,6 +137,7 @@ public class Main extends Application {
 		allFood.add(food);
 		Thread threadFood = new Thread(food);
 		threadFood.start();
+		threads.add(threadFood);
 	}
 	
 	public void fearPigeons() {

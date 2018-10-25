@@ -30,14 +30,15 @@ public class Pigeon extends Element implements Runnable {
 			if (!allFood.isEmpty()) {
 				selectCible();
 			}
-			if (iterationFeared == 0 && cible != null) {
+			if (iterationFeared <= 0 && cible != null) {
 					move();
 					
 			}else if(iterationFeared == 1) {
 				Image imv = new Image("./view/pigeon.png");
 				setImage(imv);
+				iterationFeared--;
 			}
-			else if(iterationFeared != 0) {
+			else if(iterationFeared > 0) {
 				fear();
 				iterationFeared--;
 			}
@@ -49,7 +50,7 @@ public class Pigeon extends Element implements Runnable {
 		double distanceMin = Parametre.HEIGHT^2 + Parametre.WIDTH^2;
 
 		for (int i = 0; i < allFood.size(); i++) {
-			System.out.println(allFood.size());
+			//System.out.println(allFood.size());
 			if (distance(allFood.get(i)) < distanceMin) {
 				distanceMin = distance(allFood.get(i));
 				cible = allFood.get(i);
